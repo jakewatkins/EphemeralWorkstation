@@ -1,0 +1,180 @@
+{
+  "revision_id": "ddfb7ffd197c414711e7a609641f376ac95d60fe56364a352d8c68a097a7179e",
+  "name": "WinSqlWorkstation",
+  "run_list": [
+    "recipe[seven_zip::default]",
+    "recipe[git::windows]",
+    "recipe[WinSqlWorkstation::default]",
+    "recipe[chef-client::task]"
+  ],
+  "included_policy_locks": [
+
+  ],
+  "cookbook_locks": {
+    "WinSqlWorkstation": {
+      "version": "0.1.0",
+      "identifier": "bd55a492e21e36d2a56409992fc0edba01c4564e",
+      "dotted_decimal_identifier": "53292935925603894.59291594185584576.261383149344334",
+      "source": ".",
+      "cache_key": null,
+      "scm_info": {
+        "scm": "git",
+        "remote": "https://guerillaprogrammer@dev.azure.com/guerillaprogrammer/GuerillaProgrammer/_git/WinSqlWorkstation",
+        "revision": "9c35b452ec6a34149a8c6c15c66b1b66e46c14f7",
+        "working_tree_clean": false,
+        "published": true,
+        "synchronized_remote_branches": [
+          "origin/HEAD -> origin/master",
+          "origin/master"
+        ]
+      },
+      "source_options": {
+        "path": "."
+      }
+    },
+    "chef-client": {
+      "version": "11.5.0",
+      "identifier": "7cb128f1330f3a4f43fe674f3a1626d4cb5aec37",
+      "dotted_decimal_identifier": "35097686515584826.22311283094141462.42695386655799",
+      "cache_key": "chef-client-11.5.0-supermarket.chef.io",
+      "origin": "https://supermarket.chef.io:443/api/v1/cookbooks/chef-client/versions/11.5.0/download",
+      "source_options": {
+        "artifactserver": "https://supermarket.chef.io:443/api/v1/cookbooks/chef-client/versions/11.5.0/download",
+        "version": "11.5.0"
+      }
+    },
+    "cron": {
+      "version": "6.2.2",
+      "identifier": "602e43b375c9dd2dc5f4540b50f34c1fe6692ab7",
+      "dotted_decimal_identifier": "27072466072750557.12884027124699379.83699893349047",
+      "cache_key": "cron-6.2.2-supermarket.chef.io",
+      "origin": "https://supermarket.chef.io:443/api/v1/cookbooks/cron/versions/6.2.2/download",
+      "source_options": {
+        "artifactserver": "https://supermarket.chef.io:443/api/v1/cookbooks/cron/versions/6.2.2/download",
+        "version": "6.2.2"
+      }
+    },
+    "git": {
+      "version": "10.0.0",
+      "identifier": "16726d6f9285ca00f4abe4a895dc1a219ea6c4fa",
+      "dotted_decimal_identifier": "6318263836509642.269019112838620.28731697972474",
+      "cache_key": "git-10.0.0-supermarket.chef.io",
+      "origin": "https://supermarket.chef.io:443/api/v1/cookbooks/git/versions/10.0.0/download",
+      "source_options": {
+        "artifactserver": "https://supermarket.chef.io:443/api/v1/cookbooks/git/versions/10.0.0/download",
+        "version": "10.0.0"
+      }
+    },
+    "logrotate": {
+      "version": "2.2.2",
+      "identifier": "bd20a5c5c2c06cb301f5903e61fe3749357a7755",
+      "dotted_decimal_identifier": "53234666957881452.50386175029830142.60787569358677",
+      "cache_key": "logrotate-2.2.2-supermarket.chef.io",
+      "origin": "https://supermarket.chef.io:443/api/v1/cookbooks/logrotate/versions/2.2.2/download",
+      "source_options": {
+        "artifactserver": "https://supermarket.chef.io:443/api/v1/cookbooks/logrotate/versions/2.2.2/download",
+        "version": "2.2.2"
+      }
+    },
+    "seven_zip": {
+      "version": "3.1.2",
+      "identifier": "0e1fed3b56aa5e84205e330d92aca22d8704a014",
+      "dotted_decimal_identifier": "3975753437194846.37190285881348780.178316422455316",
+      "cache_key": "seven_zip-3.1.2-supermarket.chef.io",
+      "origin": "https://supermarket.chef.io:443/api/v1/cookbooks/seven_zip/versions/3.1.2/download",
+      "source_options": {
+        "artifactserver": "https://supermarket.chef.io:443/api/v1/cookbooks/seven_zip/versions/3.1.2/download",
+        "version": "3.1.2"
+      }
+    },
+    "windows": {
+      "version": "6.0.1",
+      "identifier": "042f33803f392155c065c33572f454070c4a3a4d",
+      "dotted_decimal_identifier": "1177798148307233.24136916319695604.92389247695437",
+      "cache_key": "windows-6.0.1-supermarket.chef.io",
+      "origin": "https://supermarket.chef.io:443/api/v1/cookbooks/windows/versions/6.0.1/download",
+      "source_options": {
+        "artifactserver": "https://supermarket.chef.io:443/api/v1/cookbooks/windows/versions/6.0.1/download",
+        "version": "6.0.1"
+      }
+    }
+  },
+  "default_attributes": {
+
+  },
+  "override_attributes": {
+
+  },
+  "solution_dependencies": {
+    "Policyfile": [
+      [
+        "WinSqlWorkstation",
+        ">= 0.0.0"
+      ],
+      [
+        "chef-client",
+        "= 11.5.0"
+      ],
+      [
+        "cron",
+        "= 6.2.2"
+      ],
+      [
+        "git",
+        "= 10.0.0"
+      ],
+      [
+        "logrotate",
+        "= 2.2.2"
+      ],
+      [
+        "seven_zip",
+        "= 3.1.2"
+      ],
+      [
+        "windows",
+        "= 6.0.1"
+      ]
+    ],
+    "dependencies": {
+      "WinSqlWorkstation (0.1.0)": [
+        [
+          "git",
+          "~> 10.0.0"
+        ],
+        [
+          "windows",
+          "~> 6.0.1"
+        ]
+      ],
+      "chef-client (11.5.0)": [
+        [
+          "cron",
+          ">= 4.2.0"
+        ],
+        [
+          "logrotate",
+          ">= 1.9.0"
+        ]
+      ],
+      "cron (6.2.2)": [
+
+      ],
+      "git (10.0.0)": [
+
+      ],
+      "logrotate (2.2.2)": [
+
+      ],
+      "seven_zip (3.1.2)": [
+        [
+          "windows",
+          ">= 0.0.0"
+        ]
+      ],
+      "windows (6.0.1)": [
+
+      ]
+    }
+  }
+}
