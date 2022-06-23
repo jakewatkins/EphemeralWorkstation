@@ -4,6 +4,11 @@
 #
 param($vmName)
 
+if(!$vmName) 
+{
+    write-host "please provide name for workstation"
+    exit
+}
 
 # get the local machine's ip address
 $workstationId = (Invoke-webrequest ifconfig.me/ip).Content.Trim()
