@@ -4,8 +4,7 @@
 #
 param($vmName)
 
-if(!$vmName) 
-{
+if (!$vmName) {
     write-host "please provide name for workstation"
     exit
 }
@@ -26,7 +25,8 @@ Write-Host "Configuring VM for Chef Bootstrap"
 $secret = (ConvertFrom-Json -InputObject ((az keyvault secret show --name SprinterPassword --vault-name  kvGPSecrets) -join " ")).value
 
 #setup remote session
-$username = 'sysadmin'
+#change this to get the username from the keyvault as well
+$username = (ConvertFrom-Json -InputObject ((az keyvault secret show --name SprinterUsername --vault-name  kvGPSecrets) -join " ")).value
 $password = ConvertTo-SecureString -string $secret -AsPlainText -Force
 
 $credential = new-object -TypeName system.management.automation.pscredential -ArgumentList ($username, $password)
