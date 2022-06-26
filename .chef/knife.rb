@@ -6,4 +6,4 @@ log_location             STDOUT
 node_name                "jkwdev01"
 client_key               "#{current_dir}/jkwdev01.pem"
 chef_server_url          "https://api.chef.io/organizations/pscook"
-cookbook_path            ["#{current_dir}/../cookbooks"]
+cookbook_path            ["D:\SourceCode\GuerillaProgrammer\EphemeralWorkstation\cookbooks"]
