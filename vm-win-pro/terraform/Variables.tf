@@ -1,4 +1,13 @@
 
+resource "random_string" "default" {
+  length = 4
+}
+
+variable "nameBase" {
+  default = ""
+}
+
+
 variable "azRegion" {
     default = "centralus"
     description = "location where the resource is hosted"
@@ -15,7 +24,7 @@ variable "AvailabilitySetName" {
 }
 
 variable "machineName" {
-  default = "vmjkwWS20220609"
+  default = "vmjkwWS"
   description = "name of the vm"
 }
 
@@ -27,4 +36,27 @@ variable "username" {
 variable "workstation_ip" {
   type = string
   description = "Ip address for the local workstation that will access the vm once it has been created"
+}
+
+variable "vnetName" {
+  default = "vnet"
+}
+
+variable "subnetName" {
+  default = "inet"
+}
+
+variable "vmPublicIpName" {
+  default = "vm_public_ip"  
+}
+
+variable "domainLabel" {
+  default = "vm-jkw-ws-sprinter"
+}
+
+variable "nicSprinterName" {
+  default = "nicSprinter"
+}
+variable "nsgSprinterName" {
+  default = "sprinter-network-security-group"
 }

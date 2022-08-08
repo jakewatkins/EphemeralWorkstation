@@ -11,4 +11,4 @@ write-host "deleting $vmName from Chef server"
 knife node delete $vmName -y
 
 write-host "removing $vmName from Azure"
-terraform destroy -var="workstation_ip=$workstationId"  -var="machineName=$vmName" -auto-approve
+terraform destroy -var-file="sprinter.tfvars" -var="nameBase=$base" -var="workstation_ip=$workstationId"  -var="machineName=$vmName" -auto-approve

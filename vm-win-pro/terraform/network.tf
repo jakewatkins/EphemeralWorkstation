@@ -1,7 +1,7 @@
 
 ## <https://www.terraform.io/docs/providers/azurerm/r/virtual_network.html>
 resource "azurerm_virtual_network" "vnet" {
-  name                = "vNet"
+  name                = "${var.vnetName}${var.nameBase}"
   address_space       = ["10.0.0.0/16"]
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
@@ -9,23 +9,23 @@ resource "azurerm_virtual_network" "vnet" {
 
 ## <https://www.terraform.io/docs/providers/azurerm/r/subnet.html> 
 resource "azurerm_subnet" "subnet" {
-  name                 = "internal"
+  name                 = "${var.subnetName}${var.nameBase}"
   resource_group_name  = azurerm_resource_group.rg.name
   virtual_network_name = azurerm_virtual_network.vnet.name
   address_prefixes     = ["10.0.2.0/24"]
 }
 
 resource "azurerm_public_ip" "vmPublicIp" {
-  name                = "vm_public_ip"
+  name                = "${var.vmPublicIpName}${var.nameBase}"
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
-  domain_name_label   = "vm-jkw-ws-sprinter"
+  domain_name_label   = "${var.domainLabel}${var.nameBase}"
   allocation_method   = "Dynamic"
 }
 
 ## <https://www.terraform.io/docs/providers/azurerm/r/network_interface.html>
 resource "azurerm_network_interface" "nicSprinter" {
-  name                = "sprinter-nic"
+  name                = "${var.nicSprinterName}${var.nameBase}"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 
@@ -38,7 +38,7 @@ resource "azurerm_network_interface" "nicSprinter" {
 }
 
 resource "azurerm_network_security_group" "nsgSprinter" {
-    name = "sprinter-network-security-group"
+    name = "${var.nsgSprinterName}${var.nameBase}"
     location = azurerm_resource_group.rg.location
     resource_group_name = azurerm_resource_group.rg.name
 }

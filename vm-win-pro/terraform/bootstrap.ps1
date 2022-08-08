@@ -2,13 +2,22 @@
 #
 #
 #
-param($vmName)
+param($vmName, $base)
 
 
 if (!$vmName) {
     write-host "please provide the name of the vm to be bootstrapped."
     exit
 }
+
+if (!$base) {
+    $base = (Get-Date).tostring("MMdd")
+    write-host "automatically generate base: $base"
+    exit
+}
+
+$rgName = "Sprinter-$base"
+$publicIp = "pubIp$base"
 
 write-host "bootstrapping $vmName"
 
@@ -21,8 +30,8 @@ $secret = (ConvertFrom-Json -InputObject ((az keyvault secret show --name Sprint
 
 #create the databag and add it to the server
 $publicIp = az vm list-ip-addresses -n $vmName --query "[].virtualMachine.network.publicIpAddresses[0].ipAddress" --output tsv
-$fdqn = (convertfrom-json -InputObject ((az network public-ip show --resource-group Sprinter -n vm_public_ip --query "{fdqn: dnsSettings.fqdn}") -join " ")).fdqn
-
+#$fdqn = (convertfrom-json -InputObject ((az network public-ip show --resource-group $rgName -n $publicIp --query "{fdqn: dnsSettings.fqdn}") -join " ")).fdqn
+$fdqn = "vm-jkw-ws$base.centralus.cloudapp.azure.com"
 write-host "IP: $publicIp"
 write-host "DNS: $fdqn"
 
