@@ -26,7 +26,7 @@ Write-Host "running Terraform Plan"
 terraform plan -var-file="sprinter.tfvars" -var="nameBase=$base" -var="workstation_ip=$workstationId" -var="machineName=$vmName"
 Write-Host "Running Terraform Apply"
 terraform apply -var-file="sprinter.tfvars" -var="nameBase=$base" -var="workstation_ip=$workstationId" -var="machineName=$vmName" -auto-approve
-Write-host "finished creating VM - waiting 60 before starting bootstrap process"
+Write-host "finished creating VM - waiting 60s before starting bootstrap process"
 start-sleep -seconds 60
 
 Write-Host "Configuring VM for Chef Bootstrap"

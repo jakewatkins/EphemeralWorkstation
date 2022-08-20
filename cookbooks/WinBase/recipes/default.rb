@@ -15,13 +15,20 @@ install_sql = ::File.exist?('c:/sql.txt')
 install_vscode = ::File.exist?('c:/vscode.txt')
 install_vs = ::File.exist?('c:/visualstudio.txt')
 install_chrome = ::File.exist?('c:/chrome.txt')
+install_postman = ::File.exist?('c:/postman.txt')
 
 puts ("sql installed: " + install_sql.to_s )
 puts (" vs code installed: " + install_vscode.to_s)
 puts ("vs installed: " + install_vs.to_s )
 puts ("chrome installed: " + install_chrome.to_s)
+puts ("postman installed: " + install_postman.to_s)
 
 chef_client_scheduled_task 'Run Chef Infra Client as a scheduled task'
+
+
+directory 'c:/temp' do
+    action :create
+end
 
 #install 7zip
 seven_zip_tool '7z 15.14 install' do
@@ -76,6 +83,26 @@ if !install_chrome
     end
 end
 
+if !install_postman
+        #download postman
+        remote_file 'C:/packages/postman.exe' do
+            source 'https://dl.pstmn.io/download/latest/win64'
+            action :create
+        end
+        
+        #install postman
+        windows_package 'postman.exe' do
+            action :install
+            installer_type :custom
+            options '--silent'
+            source 'C:/packages/postman.exe'
+        end
+    
+        file 'c:/postman.txt' do
+            content "installed"
+        end
+end
+
 #Visual Studio Code
 if !install_vscode
     windows_package 'VSCodeUserSetup-x64-1.68.1.exe' do
@@ -123,13 +150,15 @@ if !install_sql
 end
 
 if !install_vs
+    #this install takes a long time and sometimes hasnt completed when the chef-client run as completed.
+    #probably need to create a resource for this that nows how to wait for VS to finish installing
     #Visual Studio Pro
-    windows_package 'VisualStudioSetup' do
-        action :install
-        installer_type :custom
-        options '--add Microsoft.VisualStudio.Product.Professional --add Microsoft.VisualStudio.Component.Web --add Microsoft.VisualStudio.ComponentGroup.Web --add Microsoft.VisualStudio.ComponentGroup.WebToolsExtensions  --includeRecommended --includeOptional --quiet --norestart'
-        source 'https://jkwfiles.blob.core.windows.net/bootstrap/VisualStudioSetup.exe?sp=r&st=2022-06-27T13:27:40Z&se=2024-01-01T22:27:40Z&spr=https&sv=2021-06-08&sr=b&sig=6q%2FPrBA6zluywNm5lHBZsEwCMDsJ%2FTRcB0Z6GprWoAw%3D'
-    end
+    #windows_package 'VisualStudioSetup' do
+    #    action :install
+    #    installer_type :custom
+    #    options '--add Microsoft.VisualStudio.Product.Professional --add Microsoft.VisualStudio.Component.Web --add Microsoft.VisualStudio.ComponentGroup.Web --add Microsoft.VisualStudio.ComponentGroup.WebToolsExtensions  --includeRecommended --includeOptional --quiet --norestart'
+    #    source 'https://jkwfiles.blob.core.windows.net/bootstrap/VisualStudioSetup.exe?sp=r&st=2022-06-27T13:27:40Z&se=2024-01-01T22:27:40Z&spr=https&sv=2021-06-08&sr=b&sig=6q%2FPrBA6zluywNm5lHBZsEwCMDsJ%2FTRcB0Z6GprWoAw%3D'
+    #end
 
     #wait until setup exits before continueing
     # powershell_script 'wait-for-setup' do
@@ -138,11 +167,72 @@ if !install_vs
     #     EOH
     # end
     
+    cookbook_file "c:/temp/installVS.ps1" do
+        source "installVS.ps1"
+        action :create
+    end
+
+    powershell_script 'Install VS' do
+        code 'c:/temp/installVS.ps1'
+    end
+
     file 'c:/visualstudio.txt' do
         content "installed"
     end
 end
 
+directory 'c:/users/sysadmin/temp' do
+    action :create
+end
+
+directory 'c:/source' do
+    action :create
+end
+
+#personalize the workstation
+cookbook_file 'c:/users/sysadmin/pictures/laughing-man.jpg' do
+    source 'laughing-man.jpg'
+    action :create
+end
+
+cookbook_file 'c:/temp/personalize.ps1' do
+    source 'personalize.ps1'
+    action :create
+end
+
+cookbook_file 'c:/temp/vs-import.ps1' do
+    source 'vs-import.ps1'
+    action :create
+end
+
+cookbook_file 'c:/temp/usersettings.xml' do
+    source 'sql-usersettings.xml'
+    action :create
+end
+
+#powershell_script 'set wallpaper' do
+#    code 'c:/temp/set-wallpaper.ps1'
+#end
+
+#file 'c:/temp/set-wallpaper.ps1' do
+#    action :delete
+#end
+
+#HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnce
+registry_key 'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnce' do
+    values [{
+      name: 'Personalize',
+      type: :string,
+      data: 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe c:\temp\personalize.ps1'
+    }]
+    action :create
+  end
+
+# load my code snippets
+
+# load my file templates
+
+# setup x509 cert to auth w/ ADO
 
 file 'c:/win-dev-workstation.txt' do
     content node.default['windows_base']['cookbook_version']
