@@ -56,3 +56,10 @@ Copy-Item "C:\temp\usersettings.xml" "C:\Users\sysAdmin\AppData\Roaming\Microsof
 
 # change the VS templates for class to my version
 # just put the templates in teh files and use the cookbook_File resource for this
+
+
+#set chrome as the default browser
+Add-Type -AssemblyName 'System.Windows.Forms'
+Start-Process $env:windir\system32\control.exe -ArgumentList '/name Microsoft.DefaultPrograms /page pageDefaultProgram\pageAdvancedSettings?pszAppName=google%20chrome'
+Start-Sleep 2
+[System.Windows.Forms.SendKeys]::SendWait("{TAB} {TAB}{TAB} ")

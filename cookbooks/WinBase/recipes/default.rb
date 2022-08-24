@@ -210,6 +210,11 @@ cookbook_file 'c:/temp/usersettings.xml' do
     action :create
 end
 
+cookbook_file 'c:/source/bin' do
+    source 'azlogin.ps1'
+    action :create
+end
+
 #powershell_script 'set wallpaper' do
 #    code 'c:/temp/set-wallpaper.ps1'
 #end
