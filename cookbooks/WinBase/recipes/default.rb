@@ -16,12 +16,14 @@ install_vscode = ::File.exist?('c:/vscode.txt')
 install_vs = ::File.exist?('c:/visualstudio.txt')
 install_chrome = ::File.exist?('c:/chrome.txt')
 install_postman = ::File.exist?('c:/postman.txt')
+install_terraform = ::File.exist?('c:/terraform.txt')
 
 puts ("sql installed: " + install_sql.to_s )
 puts (" vs code installed: " + install_vscode.to_s)
 puts ("vs installed: " + install_vs.to_s )
 puts ("chrome installed: " + install_chrome.to_s)
 puts ("postman installed: " + install_postman.to_s)
+puts ("terraform installed: " + install_terraform.to_s)
 
 chef_client_scheduled_task 'Run Chef Infra Client as a scheduled task'
 
@@ -185,11 +187,41 @@ directory 'c:/users/sysadmin/temp' do
     action :create
 end
 
+directory 'c:/users/sysadmin/Documents/WindowsPowerShell' do
+    action :create
+end
+
 directory 'c:/source' do
     action :create
 end
 
+#install Terraform
+if !install_terraform
+    
+    remote_file 'C:/packages/terraform_1.2.7.zip' do
+        source 'https://releases.hashicorp.com/terraform/1.2.7/terraform_1.2.7_windows_386.zip'
+        action :create
+    end
+
+    seven_zip_archive 'unzip_terraform' do
+        action :extract
+        path 'c:/source/bin'
+        source 'c:/packages/terraform_1.2.7.zip'
+        overwrite true
+    end
+
+    file 'c:/terraform.txt' do
+        content "installed"
+    end
+
+end
+
 #personalize the workstation
+cookbook_file 'c:/users/sysadmin/Documents/WindowsPowerShell/Microsoft.PowerShell_profile.ps1' do
+    source 'Microsoft.PowerShell_profile.ps1'
+    action :create
+end
+
 cookbook_file 'c:/users/sysadmin/pictures/laughing-man.jpg' do
     source 'laughing-man.jpg'
     action :create

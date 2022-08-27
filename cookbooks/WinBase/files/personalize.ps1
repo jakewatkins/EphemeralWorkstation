@@ -11,6 +11,10 @@ Write-host "Personalizing"
 git config --global user.email "jake.watkins@dignityhealthcd.onmicrosoft.com"
 git config --global user.name "Jake"
 
+# Setup SSH so we can clone ADO Repos using SSH
+ssh-keygen -t rsa -f c:/users/sysadmin/.ssh/id_rsa -q -P ""
+
+
 #set background wall paper
 $MyWallpaper = "c:/users/sysadmin/pictures/laughing-man.jpg"
 $code = @' 
