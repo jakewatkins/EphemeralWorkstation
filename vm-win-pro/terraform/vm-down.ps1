@@ -4,6 +4,12 @@
 #
 param($vmName)
 
+$base = (Get-Date).tostring("MMdd")
+
+if(!$vmName) {
+    $vmName = "jkwVM$base"
+}
+
 # get the local machine's ip address
 $workstationId = (Invoke-webrequest ifconfig.me/ip).Content.Trim()
 

@@ -5,15 +5,18 @@
 param($vmName, $base)
 
 if (!$vmName) {
-    write-host "please provide name for workstation"
-    exit
+    $vmName = "jkwVM"
+    write-host "default vm name: $vmName"
 }
 
 if (!$base) {
     $base = (Get-Date).tostring("MMdd")
     write-host "automatically generate base: $base"
-    exit
+    
 }
+
+$vmName += $base
+write-host $vmName
 
 $rgName = "Sprinter-$base"
 $publicIp = "pubIp$base"
