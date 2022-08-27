@@ -195,6 +195,10 @@ directory 'c:/source' do
     action :create
 end
 
+directory 'c:/source/bin' do
+    action :create
+end
+
 #install Terraform
 if !install_terraform
     
@@ -227,12 +231,12 @@ cookbook_file 'c:/users/sysadmin/pictures/laughing-man.jpg' do
     action :create
 end
 
-cookbook_file 'c:/temp/personalize.ps1' do
+cookbook_file 'c:/source/bin/personalize.ps1' do
     source 'personalize.ps1'
     action :create
 end
 
-cookbook_file 'c:/temp/vs-import.ps1' do
+cookbook_file 'c:/source/bin/vs-import.ps1' do
     source 'vs-import.ps1'
     action :create
 end
@@ -242,25 +246,31 @@ cookbook_file 'c:/temp/usersettings.xml' do
     action :create
 end
 
-cookbook_file 'c:/source/bin' do
+cookbook_file 'c:/source/bin/azlogin.ps1' do
     source 'azlogin.ps1'
     action :create
 end
 
-#powershell_script 'set wallpaper' do
-#    code 'c:/temp/set-wallpaper.ps1'
-#end
+cookbook_file 'c:/source/bin/backup-source.ps1' do
+    source 'backup-source.ps1'
+    action :create
+end
 
-#file 'c:/temp/set-wallpaper.ps1' do
-#    action :delete
-#end
+cookbook_file 'c:/source/bin/clone-repos.ps1' do
+    source 'clone-repos.ps1'
+    action :create
+end
+
+file 'c:/temp/set-wallpaper.ps1' do
+    action :delete
+end
 
 #HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnce
 registry_key 'HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnce' do
     values [{
       name: 'Personalize',
       type: :string,
-      data: 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe c:\temp\personalize.ps1'
+      data: 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe c:\source\bin\personalize.ps1'
     }]
     action :create
   end
