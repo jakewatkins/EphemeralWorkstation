@@ -4,5 +4,8 @@
 #
 
 mkdir ~/.ssh
-#az keyvault secret download --name gitKey --vault-name kvGPSecrets --file ~/.ssh/id_rsa
-az keyvault secret show --vault-name kvGPSecrets --name gitKey | jq -r .value > ~/.ssh/id_rsa
+az keyvault secret download --name gitKey --vault-name kvGPSecrets --file ~/.ssh/id_rsa
+C:\SourceCode\bin\dos2unix c:\users\sysadmin\.ssh\id_rsa
+
+
+

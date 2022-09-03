@@ -227,6 +227,10 @@ cookbook_file 'c:/source/bin/dos2unix.exe' do
     action :create
 end
 
+cookbook_file 'c:/source/bin/install-gitkey.ps1' do
+    source 'install-gitkey.ps1'
+    action :create
+end
 
 cookbook_file 'c:/source/bin/personalize.ps1' do
     source 'personalize.ps1'
