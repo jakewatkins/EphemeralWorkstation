@@ -27,6 +27,9 @@ puts ("terraform installed: " + install_terraform.to_s)
 
 chef_client_scheduled_task 'Run Chef Infra Client as a scheduled task'
 
+timezone "Set the host's timezone to CST" do
+    timezone 'Central Standard time'
+end
 
 directory 'c:/temp' do
     action :create
@@ -152,23 +155,6 @@ if !install_sql
 end
 
 if !install_vs
-    #this install takes a long time and sometimes hasnt completed when the chef-client run as completed.
-    #probably need to create a resource for this that nows how to wait for VS to finish installing
-    #Visual Studio Pro
-    #windows_package 'VisualStudioSetup' do
-    #    action :install
-    #    installer_type :custom
-    #    options '--add Microsoft.VisualStudio.Product.Professional --add Microsoft.VisualStudio.Component.Web --add Microsoft.VisualStudio.ComponentGroup.Web --add Microsoft.VisualStudio.ComponentGroup.WebToolsExtensions  --includeRecommended --includeOptional --quiet --norestart'
-    #    source 'https://jkwfiles.blob.core.windows.net/bootstrap/VisualStudioSetup.exe?sp=r&st=2022-06-27T13:27:40Z&se=2024-01-01T22:27:40Z&spr=https&sv=2021-06-08&sr=b&sig=6q%2FPrBA6zluywNm5lHBZsEwCMDsJ%2FTRcB0Z6GprWoAw%3D'
-    #end
-
-    #wait until setup exits before continueing
-    # powershell_script 'wait-for-setup' do
-    #     code <<-EOH
-    #     wait-process -name "setup" -ErrorAction SilentlyContinue
-    #     EOH
-    # end
-    
     cookbook_file "c:/temp/installVS.ps1" do
         source "installVS.ps1"
         action :create
@@ -220,6 +206,11 @@ if !install_terraform
 
 end
 
+powershell_package 'SqlServer' do
+    action :install
+    skip_publisher_check true
+end
+
 #personalize the workstation
 cookbook_file 'c:/users/sysadmin/Documents/WindowsPowerShell/Microsoft.PowerShell_profile.ps1' do
     source 'Microsoft.PowerShell_profile.ps1'
@@ -230,6 +221,12 @@ cookbook_file 'c:/users/sysadmin/pictures/laughing-man.jpg' do
     source 'laughing-man.jpg'
     action :create
 end
+
+cookbook_file 'c:/source/bin/dos2unix.exe' do
+    source 'dos2unix.exe'
+    action :create
+end
+
 
 cookbook_file 'c:/source/bin/personalize.ps1' do
     source 'personalize.ps1'
